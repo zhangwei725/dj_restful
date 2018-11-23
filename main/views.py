@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from common.result import ResultsResponse
-from main.main_serializers import FilmSerializer
-from main.models import Film
+from main.main_serializers import FilmSerializer, CateLogSerializer
+from main.models import Film, CateLog
 
 
 # 不分离
@@ -12,7 +12,6 @@ from main.models import Film
 # 浏览器 ---->静态文件(.html) ----> ajax请求接口---->从数据库获取数据--->转化json数据---直接响应
 # ---->浏览器--->>dom操作--->展示数据
 # html    加载数据的东西
-
 class FilmView(APIView):
     def get(self, request):
         try:
@@ -24,11 +23,9 @@ class FilmView(APIView):
             print(e)
             return ResultsResponse.error_to_response()
 
-    def post(self):
-        pass
 
-    def put(self):
-        pass
-
-    def delete(self):
-        pass
+class CateView(APIView):
+    def get(self, request):
+        cate_list = CateLog.objects.all()
+        ser = CateLogSerializer(cate_list, many=True)
+        return ResultsResponse.success_to_response(data=ser.data)

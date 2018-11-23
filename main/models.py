@@ -15,7 +15,7 @@ class Film(models.Model):
     fid = models.CharField(max_length=255)
     actor = models.CharField(max_length=255, blank=True, null=True)
     cate_log_name = models.CharField(max_length=255)
-    cate_log_id = models.CharField(max_length=255, blank=True, null=True)
+    cate_log_id = models.ForeignKey('CateLog', on_delete=models.CASCADE, related_name='films')
     evaluation = models.FloatField()
     image = models.CharField(max_length=255, blank=True, null=True)
     is_use = models.IntegerField()
@@ -146,3 +146,11 @@ class VipCodeCopy1(models.Model):
 
     class Meta:
         db_table = 't_vipcode_copy1'
+
+
+class CateLog(models.Model):
+    id = models.CharField(primary_key=True, max_length=255)
+    name = models.CharField(max_length=255, blank=True, null=True)
+
+    class Meta:
+        db_table = 't_cate_log'
